@@ -197,13 +197,15 @@ public class Engine {
 	private void saveCategoryPriors(DawidSkene ds) {
 
 		// Save the probability that an object belongs to each class
-		println("");
-		println("Printing prior probabilities (see also file results/priors.txt)");
+		println("Saving prior probabilities to 'results/priors.txt'");
+
 		String priors = ds.printPriors();
-		if (ctx.isVerbose()) {
-			println("=======PRIOR PROBABILITIES========");
+
+		if (ctx.isPrintResults()) {
+			println("Printing prior probabilities (see also file results/priors.txt):");
+			println("======= PRIOR PROBABILITIES ========");
 			println(priors);
-			println("==================================");
+			println("====================================");
 		}
 		Utils.writeFile(priors, "results/priors.txt");
 	}
@@ -214,13 +216,15 @@ public class Engine {
 	private void saveObjectResults(DawidSkene ds) {
 
 		// Save the probability that an object belongs to each class
-		println("");
-		println("Printing category probabilities for objects (see also file results/object-probabilities.txt)");
+		println("Saving category probabilities for objects to 'results/object-probabilities.txt'");
+
 		String objectProbs = ds.printObjectClassProbabilities();
-		if (ctx.isVerbose()) {
-			println("=======CATEGORY PROBABILITIES========");
+
+		if (ctx.isPrintResults()) {
+			println("Printing category probabilities for objects (see also file results/object-probabilities.txt):");
+			println("======= CATEGORY PROBABILITIES ========");
 			println(objectProbs);
-			println("=====================================");
+			println("=======================================");
 		}
 		Utils.writeFile(objectProbs, "results/object-probabilities.txt");
 	}
@@ -231,18 +235,19 @@ public class Engine {
 	private void saveWorkerQuality(DawidSkene ds) {
 
 		// Save the estimated quality characteristics for each worker
-		println("");
 		print("Estimating worker quality");
-		System.out
-				.println(" (see also file results/worker-statistics-summary.txt and results/worker-statistics-detailed.txt)");
-		boolean detailed = false;
-		String summary_report = ds.printAllWorkerScores(detailed);
-		detailed = true;
-		String detailed_report = ds.printAllWorkerScores(detailed);
-		if (ctx.isVerbose()) {
-			println("=======WORKER QUALITY STATISTICS=======");
+		System.out.println(" (see file 'results/worker-statistics-summary.txt' and" +
+                "'results/worker-statistics-detailed.txt)'");
+        System.out.println();
+
+		String summary_report = ds.printAllWorkerScores(false);
+		String detailed_report = ds.printAllWorkerScores(true);
+
+		if (ctx.isPrintResults()) {
+            println("Printing worker quality statistics (see also file 'results/worker-statistics-summary.txt'):");
+			println("======= WORKER QUALITY STATISTICS =======");
 			println(summary_report);
-			println("=======================================");
+			println("=========================================");
 		}
 		Utils.writeFile(summary_report, "results/worker-statistics-summary.txt");
 		Utils.writeFile(detailed_report, "results/worker-statistics-detailed.txt");
@@ -285,20 +290,20 @@ public class Engine {
 		return correct;
 	}
 
-    /**
-     * @param evalfile
-     * @return
-     */
-    private Set<CorrectLabel> loadEvaluationLabels(String evalfile) {
+	/**
+	 * @param evalfile
+	 * @return
+	 */
+	private Set<CorrectLabel> loadEvaluationLabels(String evalfile) {
 
-        // We load the "gold" cases (if any)
-        println("");
-        println("Loading file with evaluation labels. ");
-        String[] lines_correct = Utils.getFile(evalfile).split("\n");
-        println("File contained %d entries.", lines_correct.length);
-        Set<CorrectLabel> correct = getEvaluationLabels(lines_correct);
-        return correct;
-    }
+		// We load the "gold" cases (if any)
+		println("");
+		println("Loading file with evaluation labels. ");
+		String[] lines_correct = Utils.getFile(evalfile).split("\n");
+		println("File contained %d entries.", lines_correct.length);
+		Set<CorrectLabel> correct = getEvaluationLabels(lines_correct);
+		return correct;
+	}
 
 	public Set<AssignedLabel> getAssignedLabels(String[] lines) {
 
@@ -384,24 +389,24 @@ public class Engine {
 		return labels;
 	}
 
-    public Set<CorrectLabel> getEvaluationLabels(String[] lines) {
+	public Set<CorrectLabel> getEvaluationLabels(String[] lines) {
 
-        Set<CorrectLabel> labels = new HashSet<CorrectLabel>();
-        for (String line : lines) {
-            String[] entries = line.split("\t");
-            if (entries.length != 2) {
-                // evaluation file is optional
-                break;
-            }
+		Set<CorrectLabel> labels = new HashSet<CorrectLabel>();
+		for (String line : lines) {
+			String[] entries = line.split("\t");
+			if (entries.length != 2) {
+				// evaluation file is optional
+				break;
+			}
 
-            String objectname = entries[0];
-            String categoryname = entries[1];
+			String objectname = entries[0];
+			String categoryname = entries[1];
 
-            CorrectLabel cl = new CorrectLabel(objectname, categoryname);
-            labels.add(cl);
-        }
-        return labels;
-    }
+			CorrectLabel cl = new CorrectLabel(objectname, categoryname);
+			labels.add(cl);
+		}
+		return labels;
+	}
 
 	/**
 	 * @param inputfile

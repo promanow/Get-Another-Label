@@ -70,7 +70,7 @@ public class EngineContext {
 		this.numIterations = iterations;
 	}
 
-	@Option(name="--verbose", usage="Verbose Mode?")
+	@Option(name="--verbose", usage="Verbose Mode? (off by default)")
 	boolean verbose = false;
 
 	public boolean isVerbose() {
@@ -80,4 +80,15 @@ public class EngineContext {
 	public void setVerbose(boolean verbose) {
 		this.verbose = verbose;
 	}
+
+    @Option(name="--print", usage="Print results to STDOUT? (off by default)")
+    boolean printResults = false;
+
+    public boolean isPrintResults() {
+        return printResults;
+    }
+
+    public void setPrintResults(boolean printResults) {
+        this.printResults = printResults;
+    }
 }
