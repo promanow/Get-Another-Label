@@ -91,4 +91,17 @@ public class EngineContext {
     public void setPrintResults(boolean printResults) {
         this.printResults = printResults;
     }
+
+    @Option(name="--minimal", usage="Minimal mode? -- Only prints object ids and their computed labels to STDOUT in" +
+            " format: '<objectid><tab><label>'. Does not save any files. IGNORES --verbose and --print. Useful for" +
+            " using the program with external tools.")
+    boolean minimalMode = false;
+
+    public boolean isMinimalMode() {
+        return minimalMode;
+    }
+
+    public void setMinimalMode(boolean minimalMode) {
+        this.minimalMode = minimalMode;
+    }
 }

@@ -1,6 +1,7 @@
 package com.ipeirotis.gal.engine;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import com.ipeirotis.gal.scripts.AssignedLabel;
@@ -139,15 +140,33 @@ public class Engine {
 		}
 		println("Done\n");
 
-		saveWorkerQuality(getDs());
+        if (ctx.isMinimalMode()) {
+            // minimal mode: don't do any fancy stuff, just print object ids and their labels computed by D&S to STDOUT.
+            // construct and print the result on-the-fly to save memory
+            int resultLength;
+            char delimiter = '\t';
 
-		saveObjectResults(getDs());
+            for (Map.Entry<String, String> entry : getDs().getMajorityVote().entrySet()) {
+                resultLength = entry.getKey().length() + entry.getValue().length() + 1;
+                StringBuilder result = new StringBuilder(resultLength);
 
-		saveCategoryPriors(getDs());
+                result.append(entry.getKey());
+                result.append(delimiter);
+                result.append(entry.getValue());
 
-		//HashMap<String, String> posterior_voting = saveDawidSkeneVote(verbose, ds);
+                System.out.println(result.toString());
+            }
+        } else {
+            saveWorkerQuality(getDs());
 
-		//saveDifferences(verbose, ds, prior_voting, posterior_voting);
+            saveObjectResults(getDs());
+
+            saveCategoryPriors(getDs());
+
+            //HashMap<String, String> posterior_voting = saveDawidSkeneVote(verbose, ds);
+
+            //saveDifferences(verbose, ds, prior_voting, posterior_voting);
+        }
 	}
 
 
@@ -459,7 +478,7 @@ public class Engine {
 	}
 
 	public void print(String mask, Object... args) {
-		if (! ctx.isVerbose())
+		if (!ctx.isVerbose() || ctx.isMinimalMode())
 			return;
 
 		String message;
