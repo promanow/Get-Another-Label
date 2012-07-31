@@ -81,27 +81,27 @@ public class EngineContext {
 		this.verbose = verbose;
 	}
 
-    @Option(name="--print", usage="Print results to STDOUT? (off by default)")
-    boolean printResults = false;
+	@Option(name="--print", usage="Print results to STDOUT? (off by default)")
+	boolean printResults = false;
 
-    public boolean isPrintResults() {
-        return printResults;
-    }
+	public boolean isPrintResults() {
+		return printResults;
+	}
 
-    public void setPrintResults(boolean printResults) {
-        this.printResults = printResults;
-    }
+	public void setPrintResults(boolean printResults) {
+		this.printResults = printResults;
+	}
 
-    @Option(name="--minimal", usage="Minimal mode? -- Only prints object ids and their computed labels to STDOUT in" +
-            " format: '<objectid><tab><label>'. Does not save any files. IGNORES --verbose and --print. Useful for" +
-            " using the program with external tools.")
-    boolean minimalMode = false;
+	@Option(name="--minimal", usage="Minimal mode? -- Only prints object ids and their computed labels to STDOUT in" +
+			" format: '<objectid><tab><label>'. Does not save any files. IGNORES --verbose and --print. Useful for" +
+			" using the program with external tools.")
+	boolean minimalMode = false;
 
-    public boolean isMinimalMode() {
-        return minimalMode;
-    }
+	public boolean isMinimalMode() {
+		return minimalMode;
+	}
 
-    public void setMinimalMode(boolean minimalMode) {
-        this.minimalMode = minimalMode;
-    }
+	public void setMinimalMode(boolean minimalMode) {
+		this.minimalMode = minimalMode;
+	}
 }
