@@ -394,7 +394,7 @@ public class Engine {
 		int cnt = 1;
 		for (String line : lines) {
 			String[] entries = line.split("\t");
-			if (entries.length != 2) {
+			if (!line.isEmpty() && entries.length != 2) {
 				throw new IllegalArgumentException("Error while loading from correct labels file (line " + cnt + "):" + line);
 			}
 			cnt++;
