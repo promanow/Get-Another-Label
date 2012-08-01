@@ -32,11 +32,8 @@ public class Main {
 			 * 
 			 * It will be fixed in 2.0, but right now, we only need to shift arguments
 			 *
-			 * Argument of index 0 is always the program name... standard UNIX convention; I don't know why should
-			 * hashdot ever change this behavior
-			 *      -- Paweł Romanowski, 07-26-2012
 			 */
-			if (!argList.isEmpty()) {
+			if (!argList.isEmpty() && argList.get(0).contains("hashdot")) {
 				argList.remove(0);
 			}
 		}
