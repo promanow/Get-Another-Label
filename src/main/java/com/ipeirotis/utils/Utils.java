@@ -23,12 +23,25 @@ public class Utils {
 		return buffer.toString().toLowerCase();
 	}
 
-	public static String getFile(String FileName) {
+	public static BufferedReader getFileReader(String FileName) {
+		BufferedReader dataInput = null;
+
+		try {
+			dataInput = new BufferedReader(new FileReader(new File(FileName)));
+			String line;
+
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return dataInput;
+	}
+
+	public static String getFileContent(String FileName) {
 
 		StringBuffer buffer = new StringBuffer();
 
 		try {
-			BufferedReader dataInput = new BufferedReader(new FileReader(new File(FileName)));
+			BufferedReader dataInput = getFileReader(FileName);
 			String line;
 
 			while ((line = dataInput.readLine()) != null) {
