@@ -140,33 +140,33 @@ public class Engine {
 		}
 		println("Done\n");
 
-        if (ctx.isMinimalMode()) {
-            // minimal mode: don't do any fancy stuff, just print object ids and their labels computed by D&S to STDOUT.
-            // construct and print the result on-the-fly to save memory
-            int resultLength;
-            char delimiter = '\t';
+		if (ctx.isMinimalMode()) {
+			// minimal mode: don't do any fancy stuff, just print object ids and their labels computed by D&S to STDOUT.
+			// construct and print the result on-the-fly to save memory
+			int resultLength;
+			char delimiter = '\t';
 
-            for (Map.Entry<String, String> entry : getDs().getMajorityVote().entrySet()) {
-                resultLength = entry.getKey().length() + entry.getValue().length() + 1;
-                StringBuilder result = new StringBuilder(resultLength);
+			for (Map.Entry<String, String> entry : getDs().getMajorityVote().entrySet()) {
+				resultLength = entry.getKey().length() + entry.getValue().length() + 1;
+				StringBuilder result = new StringBuilder(resultLength);
 
-                result.append(entry.getKey());
-                result.append(delimiter);
-                result.append(entry.getValue());
+				result.append(entry.getKey());
+				result.append(delimiter);
+				result.append(entry.getValue());
 
-                System.out.println(result.toString());
-            }
-        } else {
-            saveWorkerQuality(getDs());
+				System.out.println(result.toString());
+			}
+		} else {
+			saveWorkerQuality(getDs());
 
-            saveObjectResults(getDs());
+			saveObjectResults(getDs());
 
-            saveCategoryPriors(getDs());
+			saveCategoryPriors(getDs());
 
-            //HashMap<String, String> posterior_voting = saveDawidSkeneVote(verbose, ds);
+			//HashMap<String, String> posterior_voting = saveDawidSkeneVote(verbose, ds);
 
-            //saveDifferences(verbose, ds, prior_voting, posterior_voting);
-        }
+			//saveDifferences(verbose, ds, prior_voting, posterior_voting);
+		}
 	}
 
 
@@ -256,14 +256,14 @@ public class Engine {
 		// Save the estimated quality characteristics for each worker
 		print("Estimating worker quality");
 		System.out.println(" (see file 'results/worker-statistics-summary.txt' and" +
-                "'results/worker-statistics-detailed.txt)'");
-        System.out.println();
+				"'results/worker-statistics-detailed.txt)'");
+		System.out.println();
 
 		String summary_report = ds.printAllWorkerScores(false);
 		String detailed_report = ds.printAllWorkerScores(true);
 
 		if (ctx.isPrintResults()) {
-            println("Printing worker quality statistics (see also file 'results/worker-statistics-summary.txt'):");
+			println("Printing worker quality statistics (see also file 'results/worker-statistics-summary.txt'):");
 			println("======= WORKER QUALITY STATISTICS =======");
 			println(summary_report);
 			println("=========================================");
@@ -394,7 +394,12 @@ public class Engine {
 		int cnt = 1;
 		for (String line : lines) {
 			String[] entries = line.split("\t");
-			if (!line.isEmpty() && entries.length != 2) {
+
+			if (line.isEmpty()) {
+				continue;
+			}
+
+			if (entries.length != 2) {
 				throw new IllegalArgumentException("Error while loading from correct labels file (line " + cnt + "):" + line);
 			}
 			cnt++;
@@ -415,7 +420,7 @@ public class Engine {
 			String[] entries = line.split("\t");
 			if (entries.length != 2) {
 				// evaluation file is optional
-				break;
+				continue;
 			}
 
 			String objectname = entries[0];
