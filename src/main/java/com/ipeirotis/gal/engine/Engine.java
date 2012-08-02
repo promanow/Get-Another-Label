@@ -151,6 +151,10 @@ public class Engine {
 			int resultLength;
 			char delimiter = '\t';
 
+			if (ctx.isVerbose()) {
+				print("RESULTS");
+			}
+
 			for (Map.Entry<String, String> entry : getDs().getMajorityVote().entrySet()) {
 				resultLength = entry.getKey().length() + entry.getValue().length() + 1;
 				StringBuilder result = new StringBuilder(resultLength);
@@ -515,7 +519,7 @@ public class Engine {
 	}
 
 	public void print(String mask, Object... args) {
-		if (!ctx.isVerbose() || ctx.isMinimalMode())
+		if (!ctx.isVerbose())
 			return;
 
 		String message;
@@ -531,7 +535,7 @@ public class Engine {
 	}
 
 	public void printRaw(String mask, Object... args) {
-		if (!ctx.isVerbose() || ctx.isMinimalMode())
+		if (!ctx.isVerbose())
 			return;
 
 		String message;
