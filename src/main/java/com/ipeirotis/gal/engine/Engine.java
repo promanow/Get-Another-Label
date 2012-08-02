@@ -103,9 +103,10 @@ public class Engine {
 
 		for (AssignedLabel l : getLabels()) {
 			if (++al % 1000 == 0)
-				print(".");
+				printRaw(".");
 			getDs().addAssignedLabel(l);
 		}
+		print("");
 		println("%d worker-assigned labels loaded.", getLabels().size());
 
 		setCorrect(loadGoldLabels(ctx.getCorrectFile()));
@@ -113,18 +114,20 @@ public class Engine {
 		int cl = 0;
 		for (CorrectLabel l : getCorrect()) {
 			if (++cl % 1000 == 0)
-				print(".");
+				printRaw(".");
 			getDs().addCorrectLabel(l);
 		}
+		print("");
 		println("%d correct labels loaded.", getCorrect().size());
 
 		setEvaluation(loadEvaluationLabels(ctx.getEvaluationFile()));
 		int el = 0;
 		for (CorrectLabel l : getEvaluation()) {
 			if (++el % 1000 == 0)
-				print(".");
+				printRaw(".");
 			getDs().addEvaluationLabel(l);
 		}
+		print("");
 		println(getEvaluation().size() + " evaluation labels loaded.");
 
 		// We compute the evaluation-based confusion matrix for the workers
@@ -260,7 +263,7 @@ public class Engine {
 
 		if (ctx.isVerbose()) {
 			System.out.println(" (see file 'results/worker-statistics-summary.txt' and" +
-					"'results/worker-statistics-detailed.txt)'");
+					" 'results/worker-statistics-detailed.txt')");
 			System.out.println();
 		}
 
@@ -525,5 +528,21 @@ public class Engine {
 		}
 
 		System.out.println(message);
+	}
+
+	public void printRaw(String mask, Object... args) {
+		if (!ctx.isVerbose() || ctx.isMinimalMode())
+			return;
+
+		String message;
+
+		if (args.length > 0) {
+			message = String.format(mask, args);
+		} else {
+			// without format arguments, print the mask/string as-is
+			message = mask;
+		}
+
+		System.out.print(message);
 	}
 }
